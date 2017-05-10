@@ -2,9 +2,11 @@
 
 $(document).ready(function(){
 
+    var watchID;
+
     $("#clickAccel").on("click",function(){
 
-        function onSuccess(acceleration) {
+        function accelerometerSuccess(acceleration) {
                 $("#accelResult").html("<ul>"+
                     "<li> en X: "+acceleration.x+"</li>"+
                     "<li> en Y: "+acceleration.y+"</li>"+
@@ -12,11 +14,18 @@ $(document).ready(function(){
                     "</ul>")
             }
 
-            function onError() {
+            function accelerometerError() {
                 alert('onError!');
             }
 
-            navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
+            watchID = navigator.accelerometer.watchAcceleration(accelerometerSuccess,
+                                                       accelerometerError,
+                                                       {frequency:1000});
+    })
+
+
+    $("#clearWatch").on("click",function(){
+        navigator.accelerometer.clearWatch(watchID);
     })
 
 
